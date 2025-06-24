@@ -1,23 +1,26 @@
-{% extends 'base.html' %}
-
+{% extends 'shared/base.html' %}
+{% block title %}Cliente → Cliente{% endblock %}
 {% block content %}
-<h2>Transferencia Cliente a Cliente</h2>
-
-<form method="POST">
-    <label>Usuario destino:</label><br>
-    <input type="text" name="username" required><br><br>
-
-    <label>Código de verificación (CI):</label><br>
-    <input type="text" name="codigo" required><br><br>
-
-    <label>Teléfono destino:</label><br>
-    <input type="text" name="telefono" required><br><br>
-
-    <label>Monto a transferir:</label><br>
-    <input type="number" name="monto" step="0.01" required><br><br>
-
-    <button type="submit">Enviar</button>
-</form>
-
-<a href="{{ url_for('user.dashboard') }}">Volver al panel</a>
+<div class="container mt-4">
+    <h3>Transferir de Cliente a Cliente</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Usuario del Destinatario</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>CI del Destinatario</label>
+            <input type="text" name="codigo" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Teléfono del Destinatario</label>
+            <input type="text" name="telefono" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Monto (Bs.)</label>
+            <input type="number" step="0.01" name="monto" class="form-control" required>
+        </div>
+        <button class="btn btn-primary">Enviar</button>
+    </form>
+</div>
 {% endblock %}

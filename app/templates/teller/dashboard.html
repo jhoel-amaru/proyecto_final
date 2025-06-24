@@ -5,8 +5,15 @@
     <h2>Bienvenido {{ user.username }}</h2>
     <p><strong>Cuenta:</strong> {{ user.ci }}</p>
     <p><strong>Celular:</strong> {{ user.telefono }}</p>
-    <p><strong>Saldo:</strong> Bs. {{ user.balance }}</p>
     <p><strong>Código Verif.:</strong> {{ user.codigo_verificacion }}</p>
+    <div class="card">
+        <h5 class="card-header">Saldo Disponible</h5>
+        <div class="card-body">
+            <h3>Bs. {{ "%.2f"|format(current_user.saldo) }}</h3>  <!-- Usar saldo -->
+        </div>
+    </div>
+
+    
     <div class="mt-3 mb-3">
         <a href="{{ url_for('teller.mi_cuenta') }}" class="btn btn-outline-info">Mi Cuenta</a>
         <a href="{{ url_for('teller.deposit') }}" class="btn btn-outline-success">Depositar a Cliente</a>

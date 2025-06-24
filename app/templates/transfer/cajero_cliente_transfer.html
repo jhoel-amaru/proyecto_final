@@ -1,27 +1,26 @@
-<h2>Transferir dinero a un cliente</h2>
-
-<form method="POST">
-    <label>Nombre de usuario del cliente:</label>
-    <input type="text" name="username" required>
-
-    <label>CI del cliente:</label>
-    <input type="text" name="ci" required>
-
-    <label>Teléfono del cliente:</label>
-    <input type="text" name="telefono" required>
-
-    <label>Monto a transferir:</label>
-    <input type="number" step="0.01" name="monto" required>
-
-    <button type="submit">Enviar</button>
-</form>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<ul>
-    {% for category, message in messages %}
-    <li class="{{ category }}">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
+{% extends 'shared/base.html' %}
+{% block title %}Cajero → Cliente{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Transferir de Cajero a Cliente</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Usuario del Cliente</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>CI del Cliente</label>
+            <input type="text" name="codigo" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Teléfono del Cliente</label>
+            <input type="text" name="telefono" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Monto (Bs.)</label>
+            <input type="number" step="0.01" name="monto" class="form-control" required>
+        </div>
+        <button class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+{% endblock %}

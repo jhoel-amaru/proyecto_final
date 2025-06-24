@@ -1,10 +1,67 @@
 {% extends 'shared/base.html' %}
 {% block title %}Inicio - Un Pesito{% endblock %}
+{% block head %}
+<style>
+    body {
+        background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+  /* Fondo semitransparente para el contenedor para mejorar legibilidad */
+    .content-wrapper {
+        background-color: rgba(255, 255, 255, 0.85);
+        padding: 30px;
+        border-radius: 12px;
+    }
+</style>
+{% endblock %}
 {% block content %}
-<div class="text-center mt-5">
+
+<div class="container mt-5 text-center">
+
+    <!-- Logo -->
+    <div class="mb-4">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Un Pesito" style="max-width: 200px;">
+    </div>
+
+    <!-- Bienvenida -->
     <h1>Bienvenido a Un Pesito</h1>
     <p>Tu billetera móvil de confianza</p>
     <a href="{{ url_for('auth.login') }}" class="btn btn-primary m-2">Iniciar Sesión</a>
     <a href="{{ url_for('auth.register') }}" class="btn btn-success m-2">Registrarse</a>
+
+    <!-- Recuadros de misión, visión y objetivo -->
+    <div class="row mt-5">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Misión</h5>
+                    <p class="card-text">Proveer servicios financieros accesibles y seguros para todos los usuarios.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Visión</h5>
+                    <p class="card-text">Ser la billetera móvil líder en la región, reconocida por su innovación y
+                        confiabilidad.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Objetivo</h5>
+                    <p class="card-text">Facilitar transacciones rápidas y seguras que mejoren la experiencia financiera
+                        del usuario.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}
