@@ -1,0 +1,202 @@
+# app/controllers/transfer_controller.py
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required, current_user
+from app import db
+from app.models.user import User
+from app.models.transaction import Transaction
+from app.models.capital_general import CapitalGeneral
+
+transfer_bp = Blueprint('transfer', __name__, url_prefix='/transfer')
+
+def registrar_transaccion(user, tipo, monto):
+    t = Transaction(user_id=user.id, tipo=tipo, monto=monto)
+    db.session.add(t)
+
+@transfer_bp.route('/cliente_a_cliente', methods=['GET', 'POST'])
+@login_required
+def cliente_a_cliente():
+    if current_user.role != 'cliente':
+        flash('Solo clientes pueden usar esta función.', 'danger')
+        return redirect(url_for('user.dashboard'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        codigo = request.form.get('codigo')
+        telefono = request.form.get('telefono')
+        try:
+            monto = float(request.form.get('monto'))
+        except:
+            flash('Monto inválido.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cliente'))
+
+        if monto <= 0:
+            flash('Monto debe ser mayor a 0.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cliente'))
+
+        destino = User.query.filter_by(username=username, ci=codigo, telefono=telefono, role='cliente').first()
+        if not destino:
+            flash('Usuario destino no encontrado.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cliente'))
+
+        if current_user.saldo < monto:
+            flash('Saldo insuficiente.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cliente'))
+
+        try:
+            current_user.saldo -= monto
+            destino.saldo += monto
+
+            registrar_transaccion(current_user, 'cliente→cliente', -monto)
+            registrar_transaccion(destino, 'cliente→cliente (recibido)', monto)
+
+            db.session.commit()
+            flash(f'Transferencia de Bs. {monto} a {destino.username} realizada con éxito.', 'success')
+            return redirect(url_for('transfer.cliente_a_cliente'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error en transferencia: {str(e)}', 'danger')
+            return redirect(url_for('transfer.cliente_a_cliente'))
+
+    return render_template('transfer/cliente_a_cliente.html')
+
+
+@transfer_bp.route('/admin_a_cajero', methods=['GET', 'POST'])
+@login_required
+def admin_a_cajero():
+    if current_user.role != 'admin':
+        flash('Solo admin puede usar esta función.', 'danger')
+        return redirect(url_for('admin.dashboard'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        try:
+            monto = float(request.form.get('monto'))
+        except:
+            flash('Monto inválido.', 'danger')
+            return redirect(url_for('transfer.admin_a_cajero'))
+
+        if monto <= 0:
+            flash('Monto debe ser mayor a 0.', 'danger')
+            return redirect(url_for('transfer.admin_a_cajero'))
+
+        cajero = User.query.filter_by(username=username, role='cajero').first()
+        if not cajero:
+            flash('Cajero no encontrado.', 'danger')
+            return redirect(url_for('transfer.admin_a_cajero'))
+
+        # Obtener capital general admin (debes tener un solo registro)
+        capital_general = CapitalGeneral.query.first()
+        if not capital_general or capital_general.monto < monto:
+            flash('Capital general insuficiente.', 'danger')
+            return redirect(url_for('transfer.admin_a_cajero'))
+
+        try:
+            capital_general.monto -= monto
+            cajero.saldo += monto
+
+            registrar_transaccion(current_user, 'admin→cajero', -monto)
+            registrar_transaccion(cajero, 'admin→cajero (recibido)', monto)
+
+            db.session.commit()
+            flash(f'Transferencia de Bs. {monto} a cajero {cajero.username} realizada con éxito.', 'success')
+            return redirect(url_for('transfer.admin_a_cajero'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error en transferencia: {str(e)}', 'danger')
+            return redirect(url_for('transfer.admin_a_cajero'))
+
+    return render_template('transfer/admin_a_cajero.html')
+
+
+@transfer_bp.route('/cliente_a_cajero', methods=['GET', 'POST'])
+@login_required
+def cliente_a_cajero():
+    if current_user.role != 'cliente':
+        flash('Solo clientes pueden usar esta función.', 'danger')
+        return redirect(url_for('user.dashboard'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        try:
+            monto = float(request.form.get('monto'))
+        except:
+            flash('Monto inválido.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cajero'))
+
+        if monto <= 0:
+            flash('Monto debe ser mayor a 0.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cajero'))
+
+        cajero = User.query.filter_by(username=username, role='cajero').first()
+        if not cajero:
+            flash('Cajero no encontrado.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cajero'))
+
+        if current_user.saldo < monto:
+            flash('Saldo insuficiente.', 'danger')
+            return redirect(url_for('transfer.cliente_a_cajero'))
+
+        try:
+            current_user.saldo -= monto
+            cajero.saldo += monto
+
+            registrar_transaccion(current_user, 'cliente→cajero', -monto)
+            registrar_transaccion(cajero, 'cliente→cajero (recibido)', monto)
+
+            db.session.commit()
+            flash(f'Transferencia de Bs. {monto} a cajero {cajero.username} realizada con éxito.', 'success')
+            return redirect(url_for('transfer.cliente_a_cajero'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error en transferencia: {str(e)}', 'danger')
+            return redirect(url_for('transfer.cliente_a_cajero'))
+
+    return render_template('transfer/cliente_a_cajero.html')
+
+
+@transfer_bp.route('/cajero_a_cliente', methods=['GET', 'POST'])
+@login_required
+def cajero_a_cliente():
+    if current_user.role != 'cajero':
+        flash('Solo cajeros pueden usar esta función.', 'danger')
+        return redirect(url_for('teller.dashboard'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        codigo = request.form.get('codigo')
+        telefono = request.form.get('telefono')
+        try:
+            monto = float(request.form.get('monto'))
+        except:
+            flash('Monto inválido.', 'danger')
+            return redirect(url_for('transfer.cajero_a_cliente'))
+
+        if monto <= 0:
+            flash('Monto debe ser mayor a 0.', 'danger')
+            return redirect(url_for('transfer.cajero_a_cliente'))
+
+        cliente = User.query.filter_by(username=username, ci=codigo, telefono=telefono, role='cliente').first()
+        if not cliente:
+            flash('Cliente no encontrado.', 'danger')
+            return redirect(url_for('transfer.cajero_a_cliente'))
+
+        if current_user.saldo < monto:
+            flash('Saldo insuficiente.', 'danger')
+            return redirect(url_for('transfer.cajero_a_cliente'))
+
+        try:
+            current_user.saldo -= monto
+            cliente.saldo += monto
+
+            registrar_transaccion(current_user, 'cajero→cliente', -monto)
+            registrar_transaccion(cliente, 'cajero→cliente (recibido)', monto)
+
+            db.session.commit()
+            flash(f'Transferencia de Bs. {monto} a cliente {cliente.username} realizada con éxito.', 'success')
+            return redirect(url_for('transfer.cajero_a_cliente'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error en transferencia: {str(e)}', 'danger')
+            return redirect(url_for('transfer.cajero_a_cliente'))
+
+    return render_template('transfer/cajero_a_cliente.html')

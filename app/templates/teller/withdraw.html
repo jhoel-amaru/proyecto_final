@@ -1,0 +1,15 @@
+{% extends 'shared/base.html' %}
+{% block title %}Retirar - Cajero{% endblock %}
+{% block content %}
+<h2>Retirar de Usuario</h2>
+<form method="POST" class="card p-3">
+    <div class="mb-3">
+        <input name="username" placeholder="Nombre de usuario" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="monto" type="number" step="0.01" min="0.01" placeholder="Monto" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-warning">Retirar</button>
+    <a href="{{ url_for('teller.dashboard') }}" class="btn btn-secondary">Volver</a>
+</form>
+{% endblock %}

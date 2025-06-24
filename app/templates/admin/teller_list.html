@@ -1,0 +1,37 @@
+{% extends 'shared/base.html' %}
+{% block title %}Lista de Cajeros{% endblock %}
+
+{% block content %}
+<h1>Lista de Cajeros</h1>
+
+<a href="{{ url_for('admin.teller_create') }}" class="btn btn-success mb-3">Crear Cajero</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>CI</th>
+            <th>Correo</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cajero in cajeros %}
+        <tr>
+            <td>{{ cajero.id }}</td>
+            <td>{{ cajero.nombre }}</td>
+            <td>{{ cajero.apellido }}</td>
+            <td>{{ cajero.ci }}</td>
+            <td>{{ cajero.correo }}</td>
+            <td>{{ cajero.username }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No hay cajeros registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Volver al panel</a>
+{% endblock %}

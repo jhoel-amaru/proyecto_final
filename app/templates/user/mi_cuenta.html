@@ -1,0 +1,17 @@
+{% extends 'shared/base.html' %}
+{% block title %}Mi Cuenta{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h2>Datos de mi cuenta</h2>
+    <p><strong>Nombre:</strong> {{ user.nombre }} {{ user.apellido }}</p>
+    <p><strong>Correo:</strong> {{ user.correo }}</p>
+    <p><strong>Número de cuenta:</strong> {{ user.ci }}</p>
+    <p><strong>Código personal:</strong> {{ user.codigo_verificacion }}</p>
+    <p><strong>Dirección:</strong> {{ user.direccion }}</p>
+    <p><strong>Saldo:</strong> Bs. {{ user.balance }}</p>
+    <div class="mt-3">
+        <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary">Salir</a>
+        <a href="#" class="btn btn-danger">Eliminar cuenta</a> <!-- Lógica pendiente -->
+    </div>
+</div>
+{% endblock %}

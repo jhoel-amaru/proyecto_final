@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Un Pesito</a>
+        <div>
+            {% if current_user.is_authenticated %}
+                {% if current_user.role == 'admin' %}
+                    <a class="nav-link d-inline text-white" href="{{ url_for('admin.dashboard') }}">Inicio Admin</a>
+                {% elif current_user.role == 'cajero' %}
+                    <a class="nav-link d-inline text-white" href="{{ url_for('teller.dashboard') }}">Inicio Cajero</a>
+                {% else %}
+                    <a class="nav-link d-inline text-white" href="{{ url_for('user.dashboard') }}">Inicio Cliente</a>
+                {% endif %}
+                <a class="nav-link d-inline text-white" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+            {% else %}
+                <a class="nav-link d-inline text-white" href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

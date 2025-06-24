@@ -1,0 +1,16 @@
+{% extends 'shared/base.html' %}
+{% block title %}Panel Admin - Un Pesito{% endblock %}
+
+{% block content %}
+<h2>Panel de Administración</h2>
+
+<p><strong>Capital General:</strong> Bs. {{ capital_general }}</p>
+<p><strong>Número de Cajeros:</strong> {{ num_cajeros }}</p>
+<p><strong>Número de Clientes:</strong> {{ num_clientes }}</p>
+
+<div class="mt-3">
+    <a href="{{ url_for('admin.loan_list') }}" class="btn btn-primary">Gestionar Préstamos</a>
+    <a href="{{ url_for('admin.teller_list') }}" class="btn btn-secondary">Gestionar Cajeros</a>
+    <a href="{{ url_for('admin.send_money') }}" class="btn btn-success">Enviar Dinero</a>
+</div>
+{% endblock %}

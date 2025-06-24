@@ -1,0 +1,27 @@
+<h2>Transferir a otro cliente</h2>
+
+<form method="POST">
+    <label>Nombre de usuario destino:</label>
+    <input type="text" name="username" required>
+
+    <label>CI del destino:</label>
+    <input type="text" name="ci" required>
+
+    <label>Teléfono del destino:</label>
+    <input type="text" name="telefono" required>
+
+    <label>Monto a transferir:</label>
+    <input type="number" step="0.01" name="monto" required>
+
+    <button type="submit">Enviar</button>
+</form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul>
+    {% for category, message in messages %}
+    <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}

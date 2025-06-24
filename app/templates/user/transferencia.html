@@ -1,0 +1,30 @@
+{% extends 'shared/base.html' %}
+{% block title %}Transferencia{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h2>Transferencia</h2>
+    
+
+    <h4 class="mt-4">Últimos movimientos</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transacciones %}
+            <tr>
+                <td>{{ t.fecha.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ t.tipo }}</td>
+                <td>Bs. {{ t.monto }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary mt-3">Salir</a>
+</div>
+{% endblock %}

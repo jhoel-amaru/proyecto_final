@@ -1,0 +1,16 @@
+{% extends 'shared/base.html' %}
+{% block title %}Términos - Un Pesito{% endblock %}
+{% block content %}
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h2 class="mb-3">Términos y condiciones</h2>
+    <p>Yo, {{ user.nombre }} con CI {{ user.ci }} y dirección {{ user.direccion }}, autorizo a Un Pesito para la gestión
+        de préstamos. En caso de incumplimiento acepto las acciones legales correspondientes.</p>
+    <form method="POST">
+        <button type="submit" class="btn btn-primary">Aceptar términos</button>
+    </form>
+    <div class="mt-3">
+        <a href="{{ url_for('auth.login') }}">Ya tienes cuenta</a> |
+        <a href="{{ url_for('auth.register') }}">Regresar</a>
+    </div>
+</div>
+{% endblock %}

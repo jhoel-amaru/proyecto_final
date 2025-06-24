@@ -1,0 +1,28 @@
+{% extends 'shared/base.html' %}
+{% block title %}Registro - Un Pesito{% endblock %}
+{% block content %}
+<h2 class="text-center mb-4">Registro</h2>
+<form method="POST" class="card p-4 mx-auto" style="max-width: 500px;">
+    <div class="mb-3"><input name="nombre" placeholder="Nombre" class="form-control" required></div>
+    <div class="mb-3"><input name="apellido" placeholder="Apellido" class="form-control" required></div>
+    <div class="mb-3"><input name="ci" placeholder="CI + 0000" class="form-control" required></div>
+    <div class="mb-3"><input name="direccion" placeholder="Dirección" class="form-control" required></div>
+    <div class="mb-3"><input name="telefono" placeholder="Teléfono" class="form-control" required></div>
+    <div class="mb-3"><input name="correo" placeholder="Correo electrónico" class="form-control" required></div>
+    <div class="mb-3"><input name="username" placeholder="Nombre de usuario" class="form-control" required></div>
+    <div class="mb-3"><input type="password" name="password" placeholder="Contraseña" class="form-control" required></div>
+    <div class="mb-3"><input type="password" name="password2" placeholder="Confirmar contraseña" class="form-control" required></div>
+    
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="acepta_terminos" id="acepta_terminos" required>
+        <label class="form-check-label" for="acepta_terminos">
+            Acepto los <a href="{{ url_for('auth.terminos') }}" target="_blank">Términos y Condiciones</a>
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">Registrarse</button>
+</form>
+<div class="text-center mt-3">
+    <a href="{{ url_for('auth.login') }}">¿Ya tienes cuenta? Inicia sesión</a>
+</div>
+{% endblock %}

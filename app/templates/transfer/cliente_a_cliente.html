@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Transferencia Cliente a Cliente</h2>
+
+<form method="POST">
+    <label>Usuario destino:</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Código de verificación (CI):</label><br>
+    <input type="text" name="codigo" required><br><br>
+
+    <label>Teléfono destino:</label><br>
+    <input type="text" name="telefono" required><br><br>
+
+    <label>Monto a transferir:</label><br>
+    <input type="number" name="monto" step="0.01" required><br><br>
+
+    <button type="submit">Enviar</button>
+</form>
+
+<a href="{{ url_for('user.dashboard') }}">Volver al panel</a>
+{% endblock %}

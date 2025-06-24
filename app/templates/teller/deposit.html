@@ -1,0 +1,23 @@
+{% extends 'shared/base.html' %}
+{% block title %}Depositar - Cajero{% endblock %}
+{% block content %}
+<h2>Depositar a Usuario</h2>
+<form method="POST" class="card p-3">
+    <div class="mb-3">
+        <input name="username_destino" placeholder="Nombre de usuario destino" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="monto" type="number" step="0.01" min="0.01" placeholder="Monto" class="form-control" required>
+    </div>
+    <hr>
+    <h5>Datos del Cajero</h5>
+    <div class="mb-3">
+        <input name="celular_cajero" placeholder="Celular del cajero" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="codigo_cajero" placeholder="Código de verificación del cajero" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Depositar</button>
+    <a href="{{ url_for('teller.dashboard') }}" class="btn btn-secondary">Volver</a>
+</form>
+{% endblock %}

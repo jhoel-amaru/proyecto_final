@@ -1,0 +1,34 @@
+{% extends 'shared/base.html' %}
+{% block title %}Crear Cajero{% endblock %}
+
+{% block content %}
+<h2>Crear Cajero</h2>
+<form method="POST">
+    <div class="mb-3">
+        <input name="nombre" placeholder="Nombre" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="apellido" placeholder="Apellido" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="ci" placeholder="CI" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="direccion" placeholder="Dirección" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="telefono" placeholder="Teléfono" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="correo" placeholder="Correo" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="username" placeholder="Username" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <input name="password" type="password" placeholder="Password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Crear</button>
+    <a href="{{ url_for('admin.teller_list') }}" class="btn btn-outline-dark">Cancelar</a>
+</form>
+{% endblock %}

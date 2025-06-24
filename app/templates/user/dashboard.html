@@ -1,0 +1,16 @@
+{% extends 'shared/base.html' %}
+{% block title %}Dashboard - Un Pesito{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h2>Bienvenido {{ user.username }}</h2>
+    <p>Número de cuenta: <strong>{{ user.ci }}</strong></p>
+    <p>Saldo actual: <strong>Bs. {{ user.balance }}</strong></p>
+    <div class="mt-3 mb-3">
+        <a href="{{ url_for('user.mi_cuenta') }}" class="btn btn-outline-primary">Mi cuenta</a>
+        <a href="{{ url_for('user.mis_prestamos') }}" class="btn btn-outline-secondary">Mis préstamos</a>
+        <a href="{{ url_for('user.transferencia') }}" class="btn btn-outline-success">Transferencias</a>
+        <a href="{{ url_for('user.depositar') }}" class="btn btn-outline-info">Depositar</a>
+        <a href="{{ url_for('user.retirar') }}" class="btn btn-outline-warning">Retirar</a>
+    </div>
+</div>
+{% endblock %}

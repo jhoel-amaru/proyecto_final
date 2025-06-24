@@ -1,0 +1,22 @@
+{% extends 'shared/base.html' %}
+{% block title %}Préstamos - Admin{% endblock %}
+{% block content %}
+<h2>Préstamos</h2>
+<a href="{{ url_for('admin.loan_create') }}" class="btn btn-success mb-3">Crear Préstamo</a>
+<table class="table">
+    <tr><th>Nombre</th><th>Monto Máx</th><th>Plazo (días)</th><th>Interés</th><th>Acciones</th></tr>
+    {% for loan in loans %}
+    <tr>
+        <td>{{ loan.nombre }}</td>
+        <td>{{ loan.monto_maximo }}</td>
+        <td>{{ loan.plazo_dias }}</td>
+        <td>{{ loan.interes }}</td>
+        <td>
+            <!-- Si tienes una ruta para eliminar, crea ese endpoint. Por ahora dejo este enlace como está. -->
+            <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-dark">Salir</a>
+{% endblock %}

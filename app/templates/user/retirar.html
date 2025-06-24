@@ -1,0 +1,11 @@
+{% extends 'shared/base.html' %}
+{% block title %}Retirar{% endblock %}
+{% block content %}
+<div class="card p-4 text-center">
+    <h2>Datos de retiro</h2>
+    <p><strong>Usuario:</strong> {{ user.username }}</p>
+    <p><strong>Teléfono:</strong> {{ user.telefono }}</p>
+    <p><strong>Código de retiro:</strong> <span class="display-4">{{ codigo }}</span></p>
+    <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary mt-3">Salir</a>
+</div>
+{% endblock %}

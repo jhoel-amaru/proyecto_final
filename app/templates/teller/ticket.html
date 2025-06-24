@@ -1,0 +1,14 @@
+{% extends 'shared/base.html' %}
+{% block title %}Ticket - Cajero{% endblock %}
+{% block content %}
+<div class="card p-4 mx-auto" style="max-width:500px;">
+    <h3>Ticket de {{ accion }}</h3>
+    <p><strong>Cliente:</strong> {{ cliente.username }} ({{ cliente.ci }})</p>
+    <p><strong>Monto:</strong> Bs. {{ monto }}</p>
+    <p><strong>Cajero:</strong> {{ cajero.username }} - Cel: {{ cajero.telefono }}</p>
+    <hr>
+    <p>Fecha: {{ fecha.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+    <button onclick="window.print()" class="btn btn-primary">Imprimir</button>
+    <a href="{{ url_for('teller.dashboard') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

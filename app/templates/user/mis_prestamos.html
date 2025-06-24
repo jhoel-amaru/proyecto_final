@@ -1,0 +1,66 @@
+{% extends 'shared/base.html' %}
+{% block title %}Mis Préstamos{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h2>Solicitar Préstamo</h2>
+    <form method="POST" class="mb-4">
+        <div class="mb-3">
+            <label for="loan_type_id" class="form-label">Tipo de Préstamo</label>
+            <select name="loan_type_id" id="loan_type_id" class="form-select" required>
+                <option value="">Seleccione un tipo</option>
+                {% for tipo in tipos %}
+                    <option value="{{ tipo.id }}">{{ tipo.nombre }} (Máximo: Bs. {{ tipo.monto_maximo }}, Interés: {{ tipo.interes }}%)</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="monto" class="form-label">Monto a solicitar</label>
+            <input type="number" step="0.01" name="monto" id="monto" class="form-control" required min="0.01">
+        </div>
+        <button type="submit" class="btn btn-primary">Solicitar</button>
+    </form>
+
+    <h3>Mis Préstamos</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tiempo Restante (días)</th>
+                <th>Total a Pagar (Bs.)</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in prestamos %}
+                <tr>
+                    <td>{{ p.nombre }}</td>
+                    <td>{{ p.tiempo_restante }}</td>
+                    <td>{{ "%.2f"|format(p.total_a_pagar) }}</td>
+                    <td>
+                        {% if p.estado == 'activo' %}
+                            <span class="badge bg-warning text-dark">Activo</span>
+                        {% else %}
+                            <span class="badge bg-success">Pagado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if p.estado == 'activo' %}
+                            <form action="{{ url_for('user.pagar_prestamo', loan_id=p.id) }}" method="POST" class="d-inline">
+                                <input type="number" step="0.01" name="monto" placeholder="Monto a pagar" required min="0.01" class="form-control form-control-sm mb-1" style="width: 120px; display: inline-block;">
+                                <button type="submit" class="btn btn-sm btn-success">Pagar</button>
+                            </form>
+                        {% else %}
+                            <span>Deuda cancelada</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">No tienes préstamos.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+</div>
+{% endblock %}

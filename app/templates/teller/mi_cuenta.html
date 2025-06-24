@@ -1,0 +1,13 @@
+{% extends 'shared/base.html' %}
+{% block title %}Mi Cuenta - Cajero{% endblock %}
+{% block content %}
+<div class="card p-4 mx-auto" style="max-width:500px;">
+    <h3>Mi Cuenta</h3>
+    <p><strong>Cuenta:</strong> {{ user.ci }}</p>
+    <p><strong>Nombre:</strong> {{ user.nombre }} {{ user.apellido }}</p>
+    <p><strong>Usuario:</strong> {{ user.username }}</p>
+    <p><strong>Celular:</strong> {{ user.telefono }}</p>
+    <p><strong>Código Verif.:</strong> {{ user.codigo_verificacion }}</p>
+    <a href="{{ url_for('teller.dashboard') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}
