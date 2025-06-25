@@ -20,7 +20,7 @@ def init_capital_general():
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object('config.Config')
+    #app.config.from_object('config.Config')
     app.config.from_pyfile('config.py', silent=True)
     app.config['SECRET_KEY'] = 'tu_secreto'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
